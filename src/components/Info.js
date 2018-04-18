@@ -41,7 +41,7 @@ export default class CardExampleControlled extends React.Component {
             const mathExpect = statistics.expectation();
             const deviation = statistics.deviation();
 
-            const delta = mathExpect - sample[index];
+            const delta = Math.abs(1 - sample[index]);
 
             return {
                 amount: Math.pow(10, index),
@@ -49,9 +49,38 @@ export default class CardExampleControlled extends React.Component {
             };
         }
 
+        function overalStatistics(sample) {
+            const statistics = new Statistics(sample);         
+            const expect = statistics.expectation();
+            const deviation = statistics.deviation();
+            const error = statistics.standartErrorOfTheMean();  
+            
+            return {
+                expect,
+                deviation,
+                error
+            };
+        }
+
         const data = createData(7);
         this.data = data;
+        this.data1 = this.data.map(d =>{ return {
+            amount: d.amount,
+            delta: d.value
+        }; });
+        let stat = new Statistics(this.data.map(d => d.value));
+        let expect = stat.expectation();
+
+        this.data2 = this.data.map(d => {
+            return {
+                amount: d.amount,
+                value: d.value,
+                delta:  Math.abs(1 - d.value),
+                sigma: Math.abs(expect - d.value)
+            };
+        });
         this.grapData = data.map((obj, i) => createStatistics(data.map(o => o.value), i));
+        this.overal = overalStatistics(data.map(o => o.value));
     }
 
     handleExpandChange = (expanded) => {
@@ -84,11 +113,20 @@ export default class CardExampleControlled extends React.Component {
                 >
                     <div>
                         <h4>Список точок</h4>
-                        <ValuesList data={this.data}/>
+                        <ValuesList data={this.data2}/>
+                    </div>
+                    <div style={{ width: 450 + 'px', height: 450 + 'px' }}>
+                        <h4>Графік похибки</h4>
+                        <Graph grapData={this.data1} />
                     </div>
                     <div style={{ width: 450 + 'px', height: 450 + 'px' }}>
                         <h4>Графік похибки</h4>
                         <Graph grapData={this.grapData} />
+                    </div>
+                    <div>
+                        <p>Математичне очікування: {this.overal.expect}</p>
+                        <p>Відхилення: {this.overal.deviation}</p>
+                        <p>Середня квадратична похибка: {this.overal.error}</p>
                     </div>
                 </CardMedia>
                 <CardActions>

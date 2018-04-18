@@ -6,7 +6,6 @@ class MonteCarlo {
         this.func = func;
         this.xRange = xRange;
         this.yRange = yRange;
-        console.log(yRange);
     }
 
     _createSamples (amount) {
@@ -38,9 +37,7 @@ class MonteCarlo {
 
         const area = (this.xRange.max - this.xRange.min) * (this.yRange.max - this.yRange.min);
         const percent = under / total;
-        console.log('Area', area);
-        console.log('Under', under);
-        console.log('Total', total);
+
         return area * percent;
     }
 }

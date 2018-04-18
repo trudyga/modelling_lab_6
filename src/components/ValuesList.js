@@ -23,14 +23,18 @@ class ValuesList extends React.Component {
                         <TableHeaderColumn>ID</TableHeaderColumn>
                         <TableHeaderColumn>Загальна кількість точок</TableHeaderColumn>
                         <TableHeaderColumn>Розв'язок</TableHeaderColumn>
+                        <TableHeaderColumn>Дельта</TableHeaderColumn>
+                        <TableHeaderColumn>Сигма</TableHeaderColumn>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {
                         this.data.map((el, i) => <TableRow>
-                            <TableRowColumn>{i}</TableRowColumn>
+                            <TableRowColumn>{i + 1}</TableRowColumn>
                             <TableRowColumn>{Math.pow(10, el.amount)}</TableRowColumn>
                             <TableRowColumn>{el.value}</TableRowColumn>
+                            <TableRowColumn>{el.delta}</TableRowColumn>
+                            <TableRowColumn>{el.sigma}</TableRowColumn>
                         </TableRow>)
                     }
                 </TableBody>

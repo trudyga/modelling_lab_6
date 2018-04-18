@@ -11,13 +11,14 @@ class Graph extends Component {
     render() {
         return (
             <V.VictoryChart
-                scale={{x: "log", y: "linear"}}
+                scale={{x: "log", y: "log"}}
                 theme={V.VictoryTheme.material}>
-                <V.VictoryLine
+                <V.VictoryScatter
                     style={{
-                        data: { stroke: "black"},
+                        data: { fill: "black"},
                         parent: { border: "1px solid #ccc"}
                     }}
+                    interpolation='basis'
                     labels={this.grapData.map((d, i) => i + 1)}
                     data={this.grapData}
                     // data accessor for x values
